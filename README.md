@@ -14,7 +14,7 @@ A `client/` folder will be added later for the mobile PWA.
 
 ## Requirements
 
-- Python 3.11+
+- requires-Python = 3.11=<3.14", because the framework crashes on Python 3.14
 - Access to GitHub (the framework installs from the ServerFramework repo)
 
 ## Running the server
