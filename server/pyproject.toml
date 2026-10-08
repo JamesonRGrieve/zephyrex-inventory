@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "zephyrex-inventory"
+version = "0.1.0"
+description = "Inventory extensions for Zephyrex Framework Server: ERPNext-backed parts and asset tracking"
+requires-python = ">=3.11"
+dependencies = [
+    "zephyrex @ git+https://github.com/JamesonRGrieve/ServerFramework.git",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+    "pytest-xdist",
+]

@@ -1,0 +1,7 @@
+name = "inventory"
+version = "0.1.0"
+description = "Parts and asset tracking on top of ERPNext"
+
+# TODO: add the ERPNext bridge as a dependency once its extension name is confirmed.
+
+[python_dependencies]
