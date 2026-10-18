@@ -14,6 +14,6 @@ class InventoryExtension(AbstractStaticExtension):
 
     @classmethod
     def models(cls) -> List[Type]:
-        from zephyrex.extensions.inventory.BLL_Inventory import ALL_MODELS
+        from extensions.inventory.BLL_Inventory import ALL_MODELS
 
         return list(ALL_MODELS)
