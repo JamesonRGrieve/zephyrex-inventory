@@ -1,0 +1,42 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Test every push and PR; deploy each push to main to the capstone ERP (dev-erp) through
+# frappe-git-deploy. Both wait for the Frappe app port: until the repo has an app's hooks.py there
+# is nothing to install, so they are skipped instead of failing.
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  detect:
+    runs-on: ubuntu-latest
+    outputs:
+      frappe_app: ${{ steps.app.outputs.frappe_app }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: app
+        run: |
+          if compgen -G "*/hooks.py" > /dev/null; then echo "frappe_app=true" >> "$GITHUB_OUTPUT"; else echo "frappe_app=false" >> "$GITHUB_OUTPUT"; fi
+
+  test:
+    needs: detect
+    if: needs.detect.outputs.frappe_app == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: format + lint
+        run: uvx ruff format --check . && uvx ruff check .
+      - name: tests
+        run: uv run --no-project --python 3.14 --with pytest python -I -m pytest
+
+  deploy:
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    uses: JamesonRGrieve/frappe-git-deploy/.github/workflows/deploy.yml@main
+    with:
+      site_url: https://dev-erp.jamesonrgrieve.ca
+      app: zephyrex_inventory
+    secrets:
+      GIT_DEPLOY_SECRET: ${{ secrets.GIT_DEPLOY_SECRET }}
