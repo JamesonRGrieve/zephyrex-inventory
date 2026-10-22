@@ -37,6 +37,6 @@ jobs:
     uses: JamesonRGrieve/frappe-git-deploy/.github/workflows/deploy.yml@main
     with:
       site_url: https://dev-erp.jamesonrgrieve.ca
-      app: zephyrex_inventory
+      app: inventory_scanner
     secrets:
       GIT_DEPLOY_SECRET: ${{ secrets.GIT_DEPLOY_SECRET }}
