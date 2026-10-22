@@ -3,7 +3,7 @@ app_title = "Inventory Scanner"
 app_publisher = "Ajay Paterson, Johnny Kwan, Michael Hubel, Robel Measho, Grishma Mistry"
 app_description = "Inventory and asset tracking with QR scanning on ERPNext"
 app_email = "ajay.paterson@gmail.com"
-app_license = "mit"
+app_license = "AGPL-3.0-or-later"
 
 # Apps
 # ------------------
