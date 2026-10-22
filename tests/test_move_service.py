@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import Mock
-from backend.move_service import MoveService
+from moving_items.move_service import MoveService
 
 
 class TestMoveService(unittest.TestCase):
