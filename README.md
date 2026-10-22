@@ -1,44 +1,40 @@
-# zephyrex-inventory
+### Inventory Scanner
 
-Companion app to an ERPNext instance for scanning and tracking parts and assets, built on the Zephyrex framework. ERPNext stays the source of truth; this app is the interface.
+Inventory and asset tracking with QR scanning on ERPNext
 
-Status: skeleton. The server boots with an empty `inventory` extension. There are no models yet, and the client has not been added.
+### Installation
 
-## Layout
-
-```
-server/   FastAPI backend, a consumer of the zephyrex Python package
-```
-
-A `client/` folder will be added later for the mobile PWA.
-
-## Requirements
-
-- requires-Python = 3.11=<3.14", because the framework crashes on Python 3.14
-- Access to GitHub (the framework installs from the ServerFramework repo)
-
-## Running the server
+You can install this app using the [bench](https://github.com/frappe/bench) CLI:
 
 ```bash
-cd server
-python3 -m venv .venv
-. .venv/bin/activate
-pip install -e ".[dev]"
-python app.py
+cd $PATH_TO_YOUR_BENCH
+bench get-app $URL_OF_THIS_REPO --branch main
+bench install-app inventory_scanner
 ```
 
-The API listens on port 2000. On first boot it creates a SQLite database in the system temp folder (`/tmp/zephyrex_inventory.db`) and seeds it. Two warnings on startup are expected in development: `ROOT_API_KEY` is unset, and `APP_CORS_ALLOWED_ORIGINS` is empty.
+### Contributing
 
-To work against a local framework checkout instead, run `pip install -e "../../server-framework[all]"` before the install line above.
-
-## Tests
+This app uses `pre-commit` for code formatting and linting. Please [install pre-commit](https://pre-commit.com/#installation) and enable it for this repository:
 
 ```bash
-cd server
-python -m pytest extensions/
+cd apps/inventory_scanner
+pre-commit install
 ```
 
-## Open items
+Pre-commit is configured to use the following tools for checking and formatting your code:
 
-- The framework currently installs from GitHub with no pinned version, so two installs on different days can get different framework code. The plan is to switch to a pinned release.
-- The ERPNext bridge is not wired in yet.
+- ruff
+- eslint
+- prettier
+- pyupgrade
+### CI
+
+This app can use GitHub Actions for CI. The following workflows are configured:
+
+- CI: Installs this app and runs unit tests on every push to `develop` branch.
+- Linters: Runs [Frappe Semgrep Rules](https://github.com/frappe/semgrep-rules) and [pip-audit](https://pypi.org/project/pip-audit/) on every pull request.
+
+
+### License
+
+mit
