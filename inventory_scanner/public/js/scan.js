@@ -1,0 +1,30 @@
+(() => {
+	const open_scanned_link = (text) => {
+		let url;
+		try {
+			url = new URL(text);
+		} catch (e) {
+			frappe.msgprint(__("Scanned text is not a valid link."));
+			return;
+		}
+		if (url.origin !== window.location.origin) {
+			frappe.msgprint(__("QR code isn't from this site."));
+			return;
+		}
+		window.location.assign(url.href);
+	};
+
+	frappe.listview_settings["Warehouse"] = {
+		onload(listview) {
+			listview.page.add_inner_button(__("Scan"), () => {
+				new frappe.ui.Scanner({
+					dialog: true,
+					multiple: false,
+					on_scan(data) {
+						open_scanned_link(data.decodedText);
+					},
+				});
+			});
+		},
+	};
+})();
