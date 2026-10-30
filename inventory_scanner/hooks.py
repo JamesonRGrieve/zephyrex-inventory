@@ -92,6 +92,7 @@ doctype_list_js = {"Warehouse": ["public/js/scan.js"]}
 # 	"methods": "inventory_scanner.utils.jinja_methods",
 # 	"filters": "inventory_scanner.utils.jinja_filters"
 # }
+jinja = {"methods": ["inventory_scanner.labels.qr_data_uri"]}
 
 # Installation
 # ------------
