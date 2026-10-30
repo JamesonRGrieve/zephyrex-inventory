@@ -57,7 +57,11 @@ doctype_js = {
     "Asset": ["public/js/install.js"],
     "Asset Capitalization": ["public/js/parts.js"]
     }
-doctype_list_js = {"Warehouse": ["public/js/scan.js"]}
+doctype_list_js = {
+    "Warehouse": ["public/js/scan.js"],
+    "Item": ["public/js/scan.js"],
+    "Asset": ["public/js/scan.js"]
+  }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_kanban_js = {"doctype" : "public/js/doctype_kanban.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
