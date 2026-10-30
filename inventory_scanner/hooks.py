@@ -52,7 +52,11 @@ app_license = "AGPL-3.0-or-later"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-doctype_js = {"Warehouse": ["public/js/move.js"]}
+doctype_js = {
+    "Warehouse": ["public/js/move.js"],
+    "Asset": ["public/js/install.js"],
+    "Asset Capitalization": ["public/js/parts.js"]
+    }
 doctype_list_js = {"Warehouse": ["public/js/scan.js"]}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_kanban_js = {"doctype" : "public/js/doctype_kanban.js"}
