@@ -1,62 +1,60 @@
+
 import frappe
+
+from .common import (
+    validate_stock_move,
+    create_stock_transfer,
+)
 
 
 @frappe.whitelist()
-def move_serial(item_code, serial_no, from_warehouse, to_warehouse):
-    if not all([item_code, serial_no, from_warehouse, to_warehouse]):
-        frappe.throw("All fields are required.")
+def move_serial(
+    item_code,
+    serial_no,
+    from_warehouse,
+    to_warehouse
+):
+    if not serial_no:
+        frappe.throw("Serial Number is required.")
 
-    if from_warehouse == to_warehouse:
-        frappe.throw("Source and destination must be different.")
-
-    item = frappe.get_doc("Item", item_code)
-    serial = frappe.get_doc("Serial No", serial_no)
-
-    if not item.has_serial_no:
-        frappe.throw("This item does not use serial numbers.")
-
-    if serial.item_code != item_code:
-        frappe.throw("Serial number does not match the item.")
-
-    if serial.warehouse != from_warehouse:
-        frappe.throw("Serial number is not in the source warehouse.")
-
-    for name in (from_warehouse, to_warehouse):
-        warehouse = frappe.get_doc("Warehouse", name)
-        if warehouse.is_group:
-            frappe.throw("Group warehouses cannot hold stock.")
-
-    company = frappe.db.get_value(
-        "Warehouse", from_warehouse, "company"
+    item, source, destination, quantity = validate_stock_move(
+        item_code,
+        from_warehouse,
+        to_warehouse,
+        1
     )
 
-    if company != frappe.db.get_value(
-        "Warehouse", to_warehouse, "company"
-    ):
-        frappe.throw("Warehouses must belong to the same company.")
+    if not item.has_serial_no:
+        frappe.throw(
+            "This item does not have serial tracking enabled."
+        )
 
-    entry = frappe.get_doc({
-        "doctype": "Stock Entry",
-        "stock_entry_type": "Material Transfer",
-        "purpose": "Material Transfer",
-        "company": company,
-        "items": [{
-            "item_code": item_code,
-            "qty": 1,
-            "s_warehouse": from_warehouse,
-            "t_warehouse": to_warehouse,
-            "serial_no": serial_no,
-            "use_serial_batch_fields": 1
-        }]
-    })
+    if item.has_batch_no:
+        frappe.throw(
+            "Items using both serial and batch tracking "
+            "need a separate bundle workflow."
+        )
 
-    entry.insert()
-    entry.submit()
+    serial = frappe.get_doc("Serial No", serial_no)
+    serial.check_permission("read")
 
-    return {
-        "success": True,
-        "message": "Serial item moved successfully",
-        "stock_entry": entry.name,
-        "serial_no": serial_no,
-        "to_warehouse": to_warehouse
-    }
+    if serial.item_code != item.name:
+        frappe.throw(
+            "Serial Number does not match the Item Code."
+        )
+
+    if serial.warehouse != source.name:
+        frappe.throw(
+            "Serial Number is not in the source warehouse."
+        )
+
+    result = create_stock_transfer(
+        item,
+        source,
+        destination,
+        quantity,
+        serial_no=serial.name
+    )
+
+    result["message"] = "Serial item moved successfully"
+    return result
