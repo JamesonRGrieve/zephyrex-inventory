@@ -11,7 +11,7 @@ the shared dev ERP.
 
 Each of us runs our own copy of the system on our computer (a "local bench").  
 You build and test your feature there, where mistakes only affect you, and then
-open a pull request.  One it is merged into `main`, the shared dev ERP updates.
+open a pull request.  Once it is merged into `main`, the shared dev ERP updates.
 
 By the end of the guide you will have a local site at http://localhost:8000 with
 Frappe, ERPNext and this app installed, matching the shared dev ERP.
@@ -51,7 +51,7 @@ Install what is missing:
 
 ## 2. Give MariaDB a root password
 
-Bench logs in to MariaDB as a root with a password.  On Ubuntu the root account has
+Bench logs in to MariaDB as root with a password.  On Ubuntu the root account has
 none, so set one (keep the socket login working too).  Use a password that is only
 for this local database:
 
@@ -94,10 +94,12 @@ bench use dev.localhost
 ```
 
 `bench new-site` asks for the MariaDB root password (step 2) and a new
-Administrator password for the site.  Type both the prompts.
+Administrator password for the site.  Type both at the prompts.
+
+If `bench new-site` fails partway, answer `y` when it asks whether to roll back the site.
 
 `bench start` must be running before ERPNext install, because the install
-queues a backround job through Redis.
+queues a background job through Redis.
 
 ## 5. Get the app
 
@@ -105,12 +107,12 @@ Not yet tested from this repo, so correct this section once someone has done it.
 
 ```
 cd ~/frappe/frappe-bench
-bench get-app https://github.com/JamesonRGrieve/zephyerex-inventory --branch main
+bench get-app https://github.com/JamesonRGrieve/zephyrex-inventory --branch main
 bench --site dev.localhost install-app inventory_scanner
 bench --site dev.localhost list-apps
 ```
 
-`list-apps` shoudl show `frappe`, `erpnext` and `inventory_scanner`
+`list-apps` should show `frappe`, `erpnext` and `inventory_scanner`
 
 ## 6. Open the site
 
@@ -146,5 +148,5 @@ Stop the bench with Ctrl+C in window 1.
 - **Error 1698, "Access denied for user 'root'@'localhost'":** the MariaDB root
    password is not set or was mistyped.  Repeat step 2 and run the test command
 - **"Connection refused" on port 11000 or 13000 while installing ERPNext:** Redis
-   is not running.  Start `bench start` in a another window and retry
+   is not running.  Start `bench start` in another window and retry.
    
