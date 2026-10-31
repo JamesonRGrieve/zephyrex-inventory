@@ -13,7 +13,7 @@ frappe.ui.form.on("Asset Capitalization", {
                 let parts = scannedText.split('/');
                 finalItemCode = parts[parts.length - 1];
             }
-
+            finalItemCode = decodeURIComponent(finalItemCode);
             let row = frm.add_child("stock_items");
             row.item_code = finalItemCode;
             frm.refresh_field("stock_items");
@@ -40,7 +40,7 @@ frappe.ui.form.on("Asset Capitalization", {
               let parts = scannedText.split('/');
               finalItemCode = parts[parts.length - 1];
             }
-
+            finalItemCode = decodeURIComponent(finalItemCode);
             let targetRow = (frm.doc.stock_items || []).find(row => row.item_code === finalItemCode);
 
             if (targetRow) {
