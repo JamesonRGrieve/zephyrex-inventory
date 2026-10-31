@@ -16,7 +16,35 @@
 
 	frappe.listview_settings["Warehouse"] = {
 		onload(listview) {
-			listview.page.add_inner_button(__("Scan"), () => {
+			listview.page.add_inner_button(__("Scan Warehouse"), () => {
+				new frappe.ui.Scanner({
+					dialog: true,
+					multiple: false,
+					on_scan(data) {
+						open_scanned_link(data.decodedText);
+					},
+				});
+			});
+		},
+	};
+
+	frappe.listview_settings["Item"] = {
+		onload(listview) {
+			listview.page.add_inner_button(__("Scan Item"), () => {
+				new frappe.ui.Scanner({
+					dialog: true,
+					multiple: false,
+					on_scan(data) {
+						open_scanned_link(data.decodedText);
+					},
+				});
+			});
+		},
+	};
+
+	frappe.listview_settings["Asset"] = {
+		onload(listview) {
+			listview.page.add_inner_button(__("Scan Asset"), () => {
 				new frappe.ui.Scanner({
 					dialog: true,
 					multiple: false,
