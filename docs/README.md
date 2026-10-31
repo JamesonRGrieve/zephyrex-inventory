@@ -45,9 +45,8 @@ Install what is missing:
 1. **Python 3.14:** `uv python install 3.14 --default`
 2. **Node 24 and yarn:** install nvm if you don't have it
    (`curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash`,
-   then open a new terminal), then `nvm install 24`, then `npm install-g yarn`
-   (without yarn, `bench init` fails with "No such file or direcotry: `yar`") 
-   `npm install -g yarn` 
+   then open a new terminal), then `nvm install 24`, then `npm install -g yarn`
+   (without yarn, `bench init` fails with "No such file or directory: 'yar'")
 3. **Redis and build tools:** `sudo apt install -y redis-server pkg-config`
 4. **MariaDB 11.8:** Ubuntu 24.04 ships 10.11, so add MariaDB's own repository.
    Open https://mariadb.org/download/?t=repo-config, choose Ubuntu, 24.04 "noble",
@@ -140,7 +139,7 @@ Stop the bench with Ctrl+C in window 1.
    uvx ruff check .
    ```
    CI runs the same checks, and a failure turns the pull request red.  Format runs
-   first, so a formatting error hids any lint errors until it is fixed.  Python
+   first, so a formatting error hides any lint errors until it is fixed.  Python
    files use tabs, and `ruff format` converts spaces for you.
 4. Commit, push, and open a pull request.  Get one approval.  The pipeline runs ruff
    and pytest on every push and pull request.
@@ -186,3 +185,4 @@ If a format is renamed, the old record stays on sites that already had it.
    password is not set or was mistyped.  Repeat step 2 and run the test command
 - **"Connection refused" on port 11000 or 13000 while installing ERPNext:** Redis
    is not running.  Start `bench start` in another window and retry.
+   
