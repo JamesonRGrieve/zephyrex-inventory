@@ -53,3 +53,7 @@ jspm_packages/
 
 # Aider AI Chat
 .aider*
+
+# Built by the frontend
+inventory_scanner/public/frontend
+inventory_scanner/www/inventory_scanner.html

@@ -54,7 +54,15 @@ app_license = "AGPL-3.0-or-later"
 # include js in doctype views
 doctype_js = {
 	"Warehouse": ["public/js/move.js"],
-	"Item": ["public/js/receive.js"],
+	"Asset": ["public/js/install.js"],
+	"Asset Capitalization": ["public/js/parts.js"],
+    "Item": ["public/js/receive.js"],
+    
+}
+doctype_list_js = {
+	"Warehouse": ["public/js/scan.js"],
+	"Item": ["public/js/scan.js"],
+	"Asset": ["public/js/scan.js"],
 }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_kanban_js = {"doctype" : "public/js/doctype_kanban.js"}
@@ -94,6 +102,7 @@ doctype_js = {
 # 	"methods": "inventory_scanner.utils.jinja_methods",
 # 	"filters": "inventory_scanner.utils.jinja_filters"
 # }
+jinja = {"methods": ["inventory_scanner.labels.qr_data_uri"]}
 
 # Installation
 # ------------
