@@ -1,45 +1,36 @@
-
 import frappe
 
 from .common import (
-    get_asset,
-    create_asset_movement,
+	create_asset_movement,
+	get_asset,
 )
 
 
 @frappe.whitelist()
 def checkin_asset(asset_id):
-    asset = get_asset(asset_id)
+	asset = get_asset(asset_id)
 
-    if not asset.custodian:
-        frappe.throw(
-            "Asset is not currently checked out."
-        )
+	if not asset.custodian:
+		frappe.throw("Asset is not currently checked out.")
 
-    location = frappe.conf.get(
-        "inventory_scanner_checkin_location"
-    )
+	location = frappe.conf.get("inventory_scanner_checkin_location")
 
-    if not location:
-        frappe.throw(
-            "Check-in location has not been configured."
-        )
+	if not location:
+		frappe.throw("Check-in location has not been configured.")
 
-    if not frappe.db.exists("Location", location):
-        frappe.throw(
-            "Configured Asset Location does not exist."
-        )
+	if not frappe.db.exists("Location", location):
+		frappe.throw("Configured Asset Location does not exist.")
 
-    result = create_asset_movement(
-        asset,
-        "Receipt",
-        {
-            "from_employee": asset.custodian,
-            "target_location": location,
-        }
-    )
+	result = create_asset_movement(
+		asset,
+		"Receipt",
+		{
+			"from_employee": asset.custodian,
+			"target_location": location,
+		},
+	)
 
-    result["location"] = location
-    result["message"] = "Asset checked in successfully"
+	result["location"] = location
+	result["message"] = "Asset checked in successfully"
 
-    return result
+	return result
